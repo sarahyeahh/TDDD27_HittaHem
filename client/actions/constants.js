@@ -1,0 +1,29 @@
+
+//Authentication
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
+export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FALIURE = 'LOGOUT_FALIURE';
+export const AUTH_USER = 'AUTH_USER';
+export const UNAUTH_USER = 'UNAUTH_USER';
+
+//Homes
+export const FETCH_HOMES = 'FETCH_HOMES';
+export const FETCH_HOMES_FAILURE = 'FETCH_HOMES_FAILURE';
+export const FETCH_HOMEPAGE = 'FETCH_HOMEPAGE';
+export const ADD_HOME = 'ADD_HOME';
+export const ADD_HOME_FAILURE = 'ADD_HOME_FAILURE';
+export const UPDATE ='UPDATE';
+export const UPDATE_SUCCESS='UPDATE_SUCCESS';
+export const UPDATE_FAILURE='UPDATE_FAILURE';
+export const SEARCH_SUCCESS='SEARCH_SUCCESS';
+export const SEARCH_FAILURE='SEARCH_FAILURE';
+export const RESET ='RESET';
+export const DELETE_HOME = 'DELETE_HOME';
+export const DELETE_HOME_FAILURE = 'DELETE_HOME_FAILURE';
+
+//Modals
+export const MODAL_OPEN ='MODAL_OPEN';
+export const MODAL_CLOSED ='MODAL_CLOSED';
