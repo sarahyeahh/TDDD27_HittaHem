@@ -33,8 +33,6 @@ const jwtSessionOptions = {
 
 const localCallback = (req, email, pass, done) => {
    
-   console.log("PASSPORT Local callback")
-
    User.findOne({email})
       .then((user) => {
         console.log(user)
@@ -57,8 +55,6 @@ const localCallback = (req, email, pass, done) => {
 
 const jwtCallback = (payload, done) => {
    
-   console.log("PASSPORT jwtcallback")
-
    const cuid = payload.sub;
    
    User.findOne({cuid})
@@ -76,7 +72,6 @@ const jwtCallback = (payload, done) => {
 
 
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-  console.log("PASSPORT jwtlogin")
 
   User.findById(payload.sub, (err, user) => {
     if (err) { return done(err, false); }

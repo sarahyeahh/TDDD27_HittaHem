@@ -40,20 +40,20 @@ export function homeError(CONST, error) {
 export function openModal() {
   
   console.log("home.js Open modal")
+  const props = ""; 
   
   return function (dispatch) {
    
     dispatch({
-      type: MODAL_OPEN
+      type: MODAL_OPEN,
+      payload: props
     });
  
   }
 }
 
 export function closeModal() {
-  
-  console.log("home.js Close modal")
-  
+    
   return function (dispatch) {
    
     dispatch({
@@ -65,10 +65,6 @@ export function closeModal() {
 
 export function getHomepage(props){
 
-/*  console.log("home.js getHomepage")
-  console.log("props")
-  console.log(props)
-*/
   return function (dispatch) {
 
     axios.post(`${API_URL}/search`, props)
@@ -90,10 +86,6 @@ export function getHomepage(props){
 //ADD
 export function addHome(props) {
 
-  console.log("home.js addHome")
-  console.log("props")
-  console.log(props)
-
   return function (dispatch) {
 
     axios.post(`${API_URL}/add`, props)
@@ -108,10 +100,6 @@ export function addHome(props) {
 
 //UPDATE
 export function updateHome(props) {
-
-  console.log("home.js updateHome")
-  console.log("props")
-  console.log(props)
 
   return function (dispatch) {
 
@@ -135,10 +123,6 @@ export function updateHome(props) {
 //DELETE
 export function deleteTheHome(props) {
 
-  console.log("home.js deleteTheHome")
-  console.log("props")
-  console.log(props)
-
   return function (dispatch) {
 
     axios.post(`${API_URL}/delete`, props)
@@ -161,11 +145,6 @@ export function deleteTheHome(props) {
 //SEARCH
 export function searchHome(props) {
 
-  console.log("home.js searchHome")
-  console.log("props")
-  console.log(props)
-  
-  //Reset the previous search 
   resetSearch();
 
   return function (dispatch) {

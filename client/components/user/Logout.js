@@ -11,25 +11,20 @@ class Logout extends React.Component {
   }	
 
   componentWillMount() {
-    
   }
 
   handleClick(){
   	this.props.signoutUser();
-   
-    console.log("Logout click ");
-   // window.location.reload(); 
     window.location.assign("#")
-    this.props.closeModal(); 
+    window.location.reload();
   }
 
   render() {
-    return <Button bsStyle="success" bsSize="small" href="#/home" onClick={this.handleClick}>Log out</Button> 
+    return <Button bsStyle="success" bsSize="small" href="#/loggedin" onClick={this.handleClick}>Log out</Button> 
   }
 }
 
 function mapStateToProps(state) {
-
   return { 
     errorMessage: state.auth.error, 
     modal: state.modal.modalIsOpen,

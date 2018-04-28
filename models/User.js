@@ -52,13 +52,10 @@ userSchema.methods.comparePassword = function (candidatePassword, callback) {
 
 
 userSchema.methods.generateHash = password => 
-    bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 
 userSchema.methods.validatePassword = function(password) { 
-   console.log("Userschema validate")
-   console.log("Password: " + password)
-   console.log(this.password)
-    return bcrypt.compareSync(password, this.password);
+  return bcrypt.compareSync(password, this.password);
 }
 
 module.exports = mongoose.model('User', userSchema);

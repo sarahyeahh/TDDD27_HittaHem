@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-
 class Compare extends React.Component {
 
   constructor() {

@@ -44,11 +44,11 @@ export default function(state = {}, action) {
 
     //Search/fetch
     case FETCH_HOMES:
-      return { list: action.payload};
+      return {found: true, list: action.payload};
     case SEARCH_SUCCESS:
-      return {loading: false, searchResult: action.payload};
+      return {found: true, searchResult: action.payload};
     case SEARCH_FAILURE:
-      return {loading: false, error: action.payload};
+      return {found: false, error: action.payload};
     
     //Reset   
     case RESET: 

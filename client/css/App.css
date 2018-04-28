@@ -1,32 +1,9 @@
-/*  .App {
- text-align: center;
-}
-*/
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
-/* .App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-} *
- */
 .button-col {
   width:100px;
   text-align:center;
@@ -37,57 +14,31 @@
   text-align:left;
 }
 
-/* table {
-  counter-reset: tableCount;
+.button-right {
+ text-align: right;
 }
 
-.counterCell:before {
-    content: counter(tableCount);
-    counter-increment: tableCount;
-}
-
-.counterCell {
- text-align: center;
- width:50px;
-}*/
-
-.button-center {
- text-align: center;
+.title{
+  font-weight: 600; 
+  font-size: 14px;
 }
 
 .Modal {
    position: relative;
-   top: 250px;
-   left: 400px;
-   right: 20px;
-   bottom: 20px;
+   top: 10%;
+   left: 25%;
+   right: 25%;
+   bottom: 10%;
    background-color: #F5F5F5;
    width:500px;
-   border: 1px solid #000;
+   border: 1px solid #ccc;
    border-radius: 4px;
    padding: 20px;
  }
 
-/* .Overlay {
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-   background-color: rebeccapurple;
- }
- */
-
-.button-center {
-  text-align: center;
- }
-
 label{
- /* display:inline-block; */
-/*  float: left; */
- width:200px;
- margin-right:30px;
-/*  text-align:right; */
+  width:200px;
+  margin-right:30px;
  }
 
 fieldset{
@@ -96,11 +47,21 @@ fieldset{
  }
 
 .closebtn{
-   float:right;
- }
+  float:right;
+}
 
 .content{
   margin:2%;
+}
+
+.buttons{
+  margin: 2px;
+}
+
+.user_modal{
+  float: right;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 
@@ -108,7 +69,6 @@ fieldset{
 .homes{
   cursor: pointer;
   position: relative;
-  /* padding-bottom: 100px; */
   border-radius: 5px;
   overflow: hidden;
   transition: all 500ms ease-out;
@@ -129,10 +89,6 @@ fieldset{
 } 
 
 .home_image {
-  /* max-width: 25vw; */
-  /* margin: 2vh; */
-  /* border: 2vh; */
- /*  padding: 2vh; */
   display: block;
   width: 100%;
   height: auto;
@@ -141,35 +97,28 @@ fieldset{
 }
 
 .home_image:hover {
-    color: green;
-    opacity: 0.4;
+  color: green;
+  opacity: 0.4;
 }
 
 .home_title {
   font-size: 22px;
-  color: #393c45;
+  color: black;  
 }
 
 .home_size {
-  float: right;
-  color: black;
-  font-size: 22px;
-  font-weight: 600;
-}
-.home_price{
-  float: left;
-  color: black;
+/*   float: right; */
+  color: #393c45;
+  font-size: 14px;
+/*   font-weight: 600; */
 }
 
 .home_rooms{
-  float: right;
-  color: black;
-  font-size: 22px;
-  font-weight: 600;
+/*   float: right; */
+  color: #393c45;
+  font-size: 14px;
+  /* font-weight: 600; */
 }
-
-
-
 
 .table{
   background-color: #fff;
@@ -181,7 +130,6 @@ fieldset{
   table-layout: fixed;
 }
 
-
 tr > th {
   padding-top: 25px;
   padding-bottom: 25px;
@@ -192,10 +140,8 @@ tr > th {
   font-size: 20px;
   color: #393c45;
   font-weight: normal;
-  /* background-color: #cecece; */
   border: 3px solid #ffffff;
   text-align: left;
-/*   padding-left: 45px; */
 }
 
 thead th {
@@ -206,38 +152,20 @@ thead th {
 
 .stats{
   background: #fff;
-  padding: 25px;
-/*   position: absolute; */
+ /*  padding: 25px; */
   bottom: 0;
   width: 100%;
 }
-
-/* p {
-  font-size: 16px;
-  color: #b1b1b3;
-  margin: 0;
-}
- */
 
 tr{
   color: black;
   font-size: 20px;
   height: 20px;
   width: 20px;
-/*   display: inline-block; */
   margin-right: 5px;
   border-radius: 100%;
 }
 
-
-/* li
-.active{
-  color: red;
-  margin: 50px;
+.input{
+  width: 50px;
 }
-
-li{
-
-  color: green;
-}
- */

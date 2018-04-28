@@ -28,17 +28,13 @@ class AddUser extends React.Component {
   }
 
   handleFormSubmit(props) {
-    console.log("Handle form submit");
     console.log(props)
     this.props.signupUser(props);
-    console.log("Sign up user");
     //Gå till startsidan
     window.location.assign("#")
   }
 
   openModal() {
-    console.log("OPEN ADD MODAL")
-    console.log(this.type)
     this.props.openModal(this.type); 
   }
 
@@ -79,7 +75,6 @@ const validate = props => {
 
 
 function mapStateToProps(state) {
-  //console.log(state.modal)
   return { 
     errorMessage: state.auth.error, 
     modal: state.modal.modalIsOpen 

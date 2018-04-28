@@ -5,11 +5,10 @@ import {Link} from 'react-router-dom';
 import Modal from 'react-modal';
 import {form, FormGroup, Button} from 'react-bootstrap';
 import { reduxForm, Field } from 'redux-form';
-import * as actions from '../actions/home';
-import HomeModal from './home/HomeModal';
+import * as actions from '../../actions/home';
+import HomeModal from '../home/HomeModal';
 
-
-const renderField = ({input, label, type, value, defaultValue, meta: {touched, error}}) => (
+const renderField = ({input, label, type, value, meta: {touched, error}}) => (
   <div>
     <label>{label}</label>
     <div>
@@ -28,7 +27,6 @@ class LoggedIn extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.renderHomes = this.renderHomes.bind(this)
-    this.type = "home";  
 	}
 
   openModal() {
@@ -54,41 +52,38 @@ class LoggedIn extends React.Component {
   }
 
 	getData(){
-    console.log("Get data")
 		//Skickar med currentuser, den som är inloggad, för att hitta hem som är kopplade till användaren. 
     var userProps = JSON.stringify({ user : this.currentuser });
     this.props.getHomepage(userProps);
 	}
 
-
   click(home){
     localStorage.setItem('currenthome', JSON.stringify(home._id) );
     localStorage.setItem('statshome', JSON.stringify(home) );
-    console.log(localStorage)
+
     //Open modal
-    this.props.openModal();    
+    this.openModal();    
   }
 
   renderHomes(){
 
     const homes = this.props.homes || [];
-    console.log(homes)
 
     if(this.props.homes){
       return homes.map((home) => {
-        return <div key={home._id} className="homes col-sm-6 col-md-3">
+        return <div key={home._id} className="homes col-sm-6 col-md-6 col-lg-3">
               <img className="home_image" src={home.image} alt={home._id}/>
               <div className="image_overlay" onClick={() => this.click(home)}></div>
+              <span className="home_title">{home.title}</span>
               <div className="stats">
-                  <span className="home_title">{home.title}</span>
-                  <span className="home_size">Storlek: {home.size} kvm</span>
-                  <p className="home_rooms">{home.rooms} rum </p> 
+                  <span className="home_size"><b>Storlek:</b> {home.size} kvm </span> {" "}
+                  <span className="home_rooms"><b>Antal rum:</b> {home.rooms} rum </span> 
                </div>
             </div>
       })
     }
     else{
-      <p>Du har tyvärr inga annonser. Skapa en här: <Link href="#/home">KLICKA</Link></p>    
+      <p>Du har tyvärr inga annonser. Skapa en här: <Link href="#/addhome">KLICKA</Link></p>    
     }
 
   }
@@ -98,26 +93,18 @@ class LoggedIn extends React.Component {
     const { handleSubmit, reset } = this.props;
 
 	    return (
-
-        <div>
-		    
   		    <div className="content homes">
-
   		    	<h1>Mina sidor</h1>   
-           
   			    <p> <b>Användarnamn: </b> {this.currentuser}</p>
   			    <p><b>Mina egna annonser:</b></p>	
   			    <ul>
           		{ this.renderHomes() }
+               <Button bsStyle="success" bsSize="small" href="#/addhome">Lägg till hem</Button>
         		</ul>
-
-            <Button bsStyle="success" bsSize="small" href="#/home">Lägg till hem</Button>
+            
+            <HomeModal></HomeModal>
 
           </div>
-
-          <HomeModal></HomeModal>
-        
-        </div>
 	    )
 	}
 }
@@ -125,7 +112,7 @@ class LoggedIn extends React.Component {
 function mapStateToProps(state) {
   return { 
     homes: state.homepage.list,
-    modal: state.modal.modalIsOpen 
+    modal: state.modal.modalIsOpen
   };
 }
 

@@ -9,7 +9,7 @@ export default function (ComposedComponent) {
     componentWillMount() {
       if (!this.props.authenticated) {
        // browserHistory.push('/signup');
-        this.props.history.push('/signin');
+       // this.props.history.push('/signin');
 
       }
     }
@@ -17,7 +17,7 @@ export default function (ComposedComponent) {
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
        // browserHistory.push('/signup');
-        this.props.history.push('/signin');
+       // this.props.history.push('/signin');
       }
     }
 

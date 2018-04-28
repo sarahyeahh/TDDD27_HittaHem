@@ -24,6 +24,7 @@ router.route('/delete').post(function(req, res) {
   console.log(_id)
   
   Home.findByIdAndRemove({ '_id': _id} , (err, homes) => {
+      
       if(err){
         res.send(err)
       }
@@ -54,55 +55,54 @@ router.route('/update').post(function(req, res) {
   console.log(doc);
 
   if(doc.title){
-
     console.log("Update title")
-
     Home.findOneAndUpdate({ '_id' : doc._id}, { title: doc.title } , (err, homes) => {
-
       console.log("Homes: " + homes)
-
       if (err) { 
         console.log("There is an error")
         return next(err); 
-      }
-      else if(homes){
-        console.log("Found homes")
-        console.log(homes)
-        return res.json(homes);
-      }
-      else{
+      }else if(homes){
+        console.log("Update home")
+      }else{
         console.log("No homes")
         res.send(err);
       }
-
-      console.log(homes)
-      res.send('Home successfully updated!');
- 
     });
   }
-  else if (doc.size){
-
-    console.log("Search size")
-
+  if (doc.size){
+    console.log("Update size")
     Home.findOneAndUpdate({ '_id' : doc._id}, { size: doc.size } , (err, homes) => {
-
+      if (err) { 
+        console.log("There is an error")
+        return next(err); 
+      }else if(homes){
+        console.log("Update home")
+      }else{
+        console.log("No homes")
+        res.send(err);
+      }  
+    });
+  }
+  if (doc.rooms){
+    console.log("Update rooms")
+    Home.findOneAndUpdate({ '_id' : doc._id}, { rooms: doc.rooms } , (err, homes) => {
       if (err) { 
         console.log("There is an error")
         return next(err); 
       }
       else if(homes){
-        console.log("Found homes")
-        console.log(homes)
-        return  res.json(homes);
+        console.log("Update home")
       }
       else{
         console.log("No homes")
         res.send(err);
-      }     
-        console.log(homes)  
-        res.send('Home successfully updated!');
+      }   
+
     });
   }
+
+  console.log(Home)
+  res.json(Home); 
 
 });
 
@@ -161,7 +161,8 @@ router.route('/search').post(function(req, res, next) {
 
   console.log(doc)
 
-  //Search for user in Home
+ //Search for user in Home
+
   if(doc.user){
 
     console.log("Search user")
@@ -186,13 +187,18 @@ router.route('/search').post(function(req, res, next) {
     if(!doc.maxsize){ doc.maxsize = 100000} //If maxsize is not set
     if(!doc.minsize){ doc.minsize = 0} //If minsize is not set
 
-    Home.find({type:doc.type} , function(err, homes){
+    //Home.find({type:doc.type} , function(err, homes){
+    Home.find({} , function(err, homes){
 
       console.log("Homes " + homes)
 
       if (err) { 
         console.log("There is an error")
         return next(err); 
+      }
+      else if(homes == ""){
+        console.log("Found EMPTY homes")
+        return  res.send(err);
       }
       else if(homes){
         console.log("Found homes")
@@ -213,7 +219,8 @@ router.route('/search').post(function(req, res, next) {
     if(!doc.maxrooms){ doc.maxrooms = 100000} //If maxsize is not set
     if(!doc.minrooms){ doc.minrooms = 0} //If minsize is not set
 
-    Home.find({type:doc.type} , function(err, homes){
+    //Home.find({type:doc.type} , function(err, homes){
+    Home.find({} , function(err, homes){
 
       console.log("Homes " + homes)
 
@@ -234,34 +241,11 @@ router.route('/search').post(function(req, res, next) {
     .where('rooms').lte(doc.maxrooms).gte(doc.minrooms); //Get all the sizes between these values. gte:greater than & equal. 
 
   }
-  /*else if(doc.title){
-
-    console.log("Search title")
-
-    Home.find({title: doc.title}, {} ,function(err, homes) {
-      if (err){res.send(err);}
-
-        res.json(homes);
-        console.log(homes)
-    });
-  }*/
-/*  else if(doc.title && doc.type){
-
-    console.log("Search both")
-
-    Home.find(  [{title: doc.title}, {type: doc.type}], function(err, homes) {
-      if (err){res.send(err);}
-
-        res.json(homes);
-        console.log(homes)
-    });
-
-  }*/
   else if(doc.type){
 
     console.log("Search type")
 
-    Home.find({ 'type' : doc.type}, {} , (err, homes) => {
+    Home.find({type:doc.type}, {} , (err, homes) => {
 
       console.log("Homes" + homes)
 
@@ -280,6 +264,60 @@ router.route('/search').post(function(req, res, next) {
  
     });
   }
+  else if(!doc.maxsize && !doc.minsize && !doc.maxrooms && !doc.minrooms && !doc.type ){
+    console.log("SEARCH ALL")
+
+    Home.find({} , function(err, homes){
+
+      if (err) { 
+        console.log("There is an error")
+        return next(err); 
+      }
+      else if(homes){
+        console.log("Found homes")
+        return  res.json(homes);
+      }
+      else{
+        console.log("No homes")
+        res.send(err);
+      }
+
+      res.json(homes);
+ 
+    });
+  }
+/*  else if(doc.title){
+    console.log("Search title")
+
+    Home.prototype.startsWith = function (prefix) {
+      this.where({ title: new RegExp('^' + prefix) })
+      return this;
+    }
+
+    var regexp = new RegExp("^"+ doc.title);
+    console.log(regexp)
+
+    Home.find({type:doc.type}, function(err, homes) => {
+
+      console.log("Homes" + homes)
+
+      if (err) { 
+        console.log("There is an error")
+        return next(err); 
+      }
+      else if(homes){
+        console.log("Found homes")
+        return  res.json(homes);
+      }
+      else{
+        console.log("No homes")
+        res.send(err);
+      }
+
+    })
+    .where({title:regexp});
+
+  }*/
   else{
     console.log("No homes")
   }
@@ -324,7 +362,6 @@ router.route('/signup').post(function(req, res, next){
       });
     }
 
-  	
   });
 });
 
@@ -347,5 +384,48 @@ router.route('/signout').get(function(req, res) {
 	req.logout();
   res.redirect('/');
 });
+
+
+router.route('/getUsers').post(function(req, res, next) {
+
+  console.log("Routes.js getUsers")
+ 
+  const doc = {
+    user : req.body.user,
+    title: req.body.title, 
+    type: req.body.type, 
+    size: req.body.size, 
+    rooms: req.body.rooms, 
+    maxsize: req.body.maxsize, 
+    minsize: req.body.minsize, 
+    maxrooms: req.body.maxrooms,
+    minrooms: req.body.minrooms
+  };
+
+  console.log(doc)
+
+  User.find({} , function(err, users){
+
+      console.log("Users " + users)
+
+      if (err) { 
+        console.log("There is an error")
+        return next(err); 
+      }
+      else if(users){
+        console.log("Found users")
+        //return  res.json(homes);
+      }
+      else{
+        console.log("No users")
+        res.send(err);
+      }
+
+      res.json(users);
+ 
+  });
+
+});
+
 
 module.exports = router;

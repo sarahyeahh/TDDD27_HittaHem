@@ -7,7 +7,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div className="content">
+      <div className="content col-sm-12 col-md-6 col-lg-6">
        
         <h1>HittaHem</h1> 
         <p>Sidan för dig som vill hitta hem</p>
@@ -20,7 +20,7 @@ export default class App extends React.Component {
         <h3>Lägg upp annonser</h3>
         <p>Går du själv i säljtankar kan du enkelt lägga upp en egen annons för att sälja din bostad.
         Passa även på att hitta en ny bostad när du ändå är här. För att lägga upp en annons går du
-        in <Link to='/home'><b>här</b></Link>.</p> 
+        in <Link to='/addhome'><b>här</b></Link>.</p> 
 
         <div className="container">
           { this.props.children }

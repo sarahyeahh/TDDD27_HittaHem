@@ -7,11 +7,11 @@ import * as actions from '../../actions/home';
 import { connect } from 'react-redux';
 import { reduxForm, Field, Radio } from 'redux-form';
 
-const renderField = ({input, label, type, value, meta: {touched, error}}) => (
+const renderField = ({input, label, type, placeholder,value, meta: {touched, error}}) => (
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} value={value} placeholder={value} type={type} />
+      <input {...input} value={value} placeholder={placeholder} type={type} />
       {touched && error && <span>{error}</span>}
     </div>
   </div>
@@ -34,16 +34,9 @@ class HomeModal extends React.Component {
   }
 
   handleFormSubmit(props) {
-    console.log("Update home")
-    console.log(props)
-
     var idProps = {_id : this.theHome._id};
-    console.log("ID PROPS")
-    console.log(idProps)
-
     let merge = Object.assign(props, idProps);  
     this.props.updateHome(merge);
-
     window.location.reload(); 
   }
 
@@ -57,16 +50,17 @@ class HomeModal extends React.Component {
 
   deleteHome(){
     console.log("Delete")
-
     var id = JSON.stringify({ _id : this.theHome._id });
     this.props.deleteTheHome(id);
     //Finally close modal
     this.closeModal();
     window.location.reload(); 
+    window.alert("Deletet home " + this.theHome.title)
   }
 
   buyHome(){
     console.log("Buy")
+    window.alert("Bough the home " + this.theHome.title)
   }
 
   openModal() {
@@ -90,7 +84,7 @@ class HomeModal extends React.Component {
     if(home){
 
       const { handleSubmit, reset } = this.props;
-      
+ 
       //If the home belongs to the logged in user the home can be modified. 
       if(this.currentuser == home.user){
         return <Modal
@@ -99,38 +93,38 @@ class HomeModal extends React.Component {
                   contentLabel="Edit"
                   className="Modal">
 
-              <Button bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
               <br/>
               <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
-                <h1>Edit</h1>
+                <h1>Edit home</h1>
                 <img className="home_image" src={home.image} alt={home.user}/>
           
                 <div>
                   <label>Title</label>
                   <div>
-                    <Field name="title" component="input" type="text" value={home.title} />
+                    <Field name="title" component="input" type="text" placeholder={home.title} value={home.title} />
                   </div>
                 </div>
                       
                 <div>
                   <label>Size</label>
                   <div>
-                    <Field name="size" component="input" value={home.size} type="number"/>
+                    <Field name="size" component="input" value={home.size} placeholder={home.size} type="number"/>
                   </div>
                 </div>
 
                 <div>
                   <label>Rooms</label>
                   <div>
-                    <Field name="rooms"  component="input" value={home.rooms} type="number"/>
+                    <Field name="rooms"  component="input" value={home.rooms} placeholder={home.rooms} type="number"/>
                   </div>
                 </div>
                         
-                <div className='button-center'>
+                <div className='button-right'>
                   <br/>
-                  <Button type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Update</Button>
-                  <Button bsStyle="danger" bsSize="small" onClick={this.deleteHome}>Delete</Button>
+                  <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Update</Button>
+                  <Button className="buttons" bsStyle="danger" bsSize="small" onClick={this.deleteHome}>Delete</Button>
                 </div>
                 
               </form>
@@ -145,13 +139,16 @@ class HomeModal extends React.Component {
               contentLabel="View"
               className="Modal">
 
-              <Button bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
               <br/>
               <h1>{home.title}</h1>
               <img className="home_image" src={home.image} alt={home._id}/>
-              <label>Size</label>{home.size}
-              <label>Rooms</label>{home.rooms}                      
-              <div className='button-center'>
+              <div>
+                <p> <b>User:</b> {home.user}  </p>
+                <p> <b>Size:</b> {home.size} </p>
+                <p> <b>Rooms:</b> {home.rooms} </p>    
+              </div>                  
+              <div className='button-right'>
                 <br/>
                 <Button type="submit" bsStyle="success" bsSize="small" onClick={this.buyHome}>Köp</Button>
               </div>
@@ -168,7 +165,7 @@ class HomeModal extends React.Component {
 
   render() {
 
-    if(this.props.homes){
+    if(this.props.homes || this.props.homepage){
         return (
           <div>
             {this.renderModal()}
@@ -184,10 +181,10 @@ class HomeModal extends React.Component {
 
 function mapStateToProps(state) {
   return { 
+    homepage: state.homepage.list,
     homes: state.home.list,
     modal: state.modal.modalIsOpen,
-    auth: state.auth,
-    type: state.modal.type
+    auth: state.auth
   };
 }
 

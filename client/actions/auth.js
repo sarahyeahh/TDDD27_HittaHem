@@ -6,7 +6,11 @@ import {
   SIGNUP_FAILURE,
 
   SIGNIN_SUCCESS,
+  SIGNIN_ADMIN_SUCCESS,
   SIGNIN_FAILURE,
+  
+  FETCH_USERS,
+  FETCH_USERS_FAILURE,
 
   LOGOUT_SUCCESS,
   LOGOUT_FALIURE,
@@ -29,10 +33,7 @@ export function authError(CONST, error) {
 }
 
 export function openModal(props) {
-  
-  console.log("auth.js Open modal")
-  console.log(props)
-  
+
   return function (dispatch) {
    
     dispatch({
@@ -44,8 +45,6 @@ export function openModal(props) {
 }
 
 export function closeModal() {
-  
-  console.log("auth.js Close modal")
   
   return function (dispatch) {
    
@@ -61,23 +60,20 @@ export function closeModal() {
  */
 export function signupUser(props) {
 
-  console.log("Auth.js Signup user function")
-  console.log(props)
+  const { email, password } = props;
+  console.log(email)
 
   return function (dispatch) {
 
     axios.post(`${API_URL}/signup`, props)
       .then(response => {
 
-        localStorage.setItem('user', JSON.stringify(response.data));
-        console.log(localStorage)
+        console.log(response.data)
         
         dispatch({ 
           type: SIGNUP_SUCCESS, 
           payload: response.data 
         });
-        
-        console.log("Auth.js signup Success")
 
         signinUser(props); 
       })
@@ -89,18 +85,35 @@ export function signupUser(props) {
  * Sign in
  */
 export function signinUser(props) {
+
+  console.log("SIGN IN USER")
   
-  console.log("Auth.js Signin user function")
-
   const { email, password } = props;
-  console.log(props)
 
-  return function (dispatch) {
+  if(email == "admin"){
+    return function (dispatch) {
 
-    axios.post(`${API_URL}/signin`, { email, password })
+      console.log("Sign in admin")
+
+      axios.post(`${API_URL}/signin`, { email, password })
       .then(response => {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        //Assign the current user to the local storage
+        localStorage.setItem('current', email);
+        dispatch({ type: SIGNIN_ADMIN_SUCCESS});
+        console.log("Auth.js signin ADMIN Success")
+      })
+      .catch(() => dispatch(authError(SIGNIN_FAILURE, "Email or password isn't right")));
+    }
 
-        console.log(response.data)
+  }else{
+
+    return function (dispatch) {
+
+      console.log("Sign in normal user")
+
+      axios.post(`${API_URL}/signin`, { email, password })
+      .then(response => {
         localStorage.setItem('user', JSON.stringify(response.data));
         //Assign the current user to the local storage
         localStorage.setItem('current', email);
@@ -108,7 +121,10 @@ export function signinUser(props) {
         console.log("Auth.js signin Success")
       })
       .catch(() => dispatch(authError(SIGNIN_FAILURE, "Email or password isn't right")));
+    }
   }
+
+  
 }
 
 
@@ -117,7 +133,6 @@ export function signinUser(props) {
  */
 export function signoutUser() {
 
-  console.log("Auth.js Signout user")
   //Clear the local storage. 
   localStorage.clear();
 
@@ -125,11 +140,29 @@ export function signoutUser() {
 
     axios.get(`${API_URL}/signout`)
     .then(response=> {
-
       dispatch({ type: LOGOUT_SUCCESS });
-      //console.log(response.data)
     })
     .catch(response => dispatch(authError(LOGOUT_FALIURE, "Could not log out user.")));
+  }
+
+}
+
+export function getAllUsers(){
+
+  return function (dispatch) {
+
+    axios.post(`${API_URL}/getUsers`)
+      .then(response => {
+
+        console.log(response.data)
+
+        dispatch({
+          type: FETCH_USERS,
+          payload: response.data,
+        });
+
+      })
+      .catch(response => dispatch(authError(FETCH_USERS_FAILURE, "Could not find any users.")));
   }
 
 }

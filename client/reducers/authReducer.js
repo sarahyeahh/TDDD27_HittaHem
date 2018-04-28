@@ -3,6 +3,7 @@ import {
   SIGNUP_FAILURE,
 
   SIGNIN_SUCCESS,
+  SIGNIN_ADMIN_SUCCESS,
   SIGNIN_FAILURE,
 
   AUTH_USER,
@@ -15,6 +16,7 @@ import {
 
 const initialState = {
   authenticated: false, 
+  admin: false, 
   signup : false,
   error: {},
   state: {}
@@ -26,13 +28,15 @@ export default function(state = {}, action) {
 
     //Signup
     case SIGNUP_SUCCESS:
-      return { ...state, authenticated: true, signup: true, error: {} };
+      return { ...state, signup: true, error: {} };
     case SIGNUP_FAILURE:
       return { ...state, signup: false, error: action.payload };
 
     //Login
+    case SIGNIN_ADMIN_SUCCESS: 
+      return {...state, admin: true, authenticated: true, error: {} }; 
     case SIGNIN_SUCCESS: 
-      return {...state, authenticated: true, error: {} }; 
+      return {...state, admin: false, authenticated: true, error: {} }; 
     case SIGNIN_FAILURE:
       return { ...state, error: action.payload };
 
@@ -44,8 +48,6 @@ export default function(state = {}, action) {
 
     //Logout
     case LOGOUT_SUCCESS:
-     // return { ...state, authenticated: false, signup: false , error: {} };
-     // return { state : undefined, authenticated: false, signup: false , error: {} };
       return initialState; 
     case LOGOUT_FALIURE:
       return { ...state, authenticated: false, signup: true , error: action.payload };

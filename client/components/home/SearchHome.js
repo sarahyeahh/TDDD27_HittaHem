@@ -20,8 +20,7 @@ class SearchHome extends React.Component {
     const getCurrent = localStorage.getItem('current');
     this.currentuser = getCurrent; 
     this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.type = "home";    
+    this.closeModal = this.closeModal.bind(this);  
   }
 
   resetSearch(){
@@ -29,7 +28,6 @@ class SearchHome extends React.Component {
   }
 
   handleFormSubmit(props) { 
-    console.log("SearchHome.js ");
     console.log(props)
     this.props.searchHome(props);
   }
@@ -44,11 +42,10 @@ class SearchHome extends React.Component {
 //TODO
   handleChange(e){
     console.log("Change")
-   // this.setState({value: event.target.value});
   }
 
   openModal() {
-    this.props.openModal(this.type); 
+    this.props.openModal(); 
   }
 
   closeModal() {
@@ -73,16 +70,18 @@ class SearchHome extends React.Component {
        return <div key={home._id} className="homes col-sm-6 col-md-3">
                 <img className="home_image" src={home.image} alt={home._id}/>
                 <div className="image_overlay" onClick={() => this.click(home)}></div>
+                <p className="user_modal">{home.user}</p>
                 <div className="stats">
-                    <span className="home_title">{home.title}</span>
-                    <span className="home_size">Storlek: {home.size} kvm</span>
-                    <p className="home_rooms">{home.rooms} rum </p> 
+                    <span className="home_title">{home.title}</span>  <br/>
+                    <span className="home_size"> <b>Storlek:</b> {home.size} kvm </span> {" "}
+                    <span className="home_rooms"><b>Antal rum:</b> {home.rooms} rum </span> 
                  </div>
+
               </div>
       })
 
     }
-    else if(homes==""){
+    else if(this.props.homes==""){
       console.log("None")
       return <p>Det fanns inga annonser i din sökning</p>    
     }
@@ -100,41 +99,36 @@ class SearchHome extends React.Component {
         <h1>Sök hem</h1>
 
         <form onSubmit={handleSubmit(this.handleFormSubmit)}>   
-          
-          <label>Title</label>
-          <div>
-            <Field name="title" onChange={this.handleChange()} component="input" type="text" placeholder="Title"/>
-          </div> 
-         
-          <label>Type</label>
+                  
+          <label>Typ</label>
           <div>
           <Field name="type" component="input" type="radio" value="apartment" />
-          {' '} Apartment {' '}
+          {' '} Lägenhet {' '}
  
           <Field name="type" component="input" type="radio" value="house" />
-          {' '}House{' '}
+          {' '}Hus{' '}
           </div>
 
-          <label>Size</label>
+          <label>Storlek</label>
           <div>
-            <Field name="minsize" component="input" type="number" placeholder="Min"/>-
-            <Field name="maxsize" component="input" type="number" placeholder="Max"/> kvm          
+            <Field className="input" name="minsize" component="input" type="number" placeholder="Min"/>-
+            <Field className="input" name="maxsize" component="input" type="number" placeholder="Max"/> kvm          
           </div>
-
-          <label>Rooms</label>
+ 
+          <label>Antal rum</label>
           <div>
-            <Field name="minrooms" component="input" type="number" placeholder="Min" />-
-            <Field name="maxrooms" component="input" type="number" placeholder="Max" /> rooms
+            <Field className="input" name="minrooms" component="input" type="number" placeholder="Min" />-
+            <Field className="input" name="maxrooms" component="input" type="number" placeholder="Max" /> rum
           </div>
           <br/>
           <br/>
-          <Button type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Search</Button>
-          <Button type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
-          <Button type="button" onClick={this.resetSearch} bsStyle="danger" bsSize="small" >Reset search</Button>  
+          <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Search</Button>
+          <Button className="buttons" type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
+          <Button className="buttons" type="button" onClick={this.resetSearch} bsStyle="danger" bsSize="small" >Reset search</Button>  
 
         </form>
   
-        <div>
+        <div className="row homes">
           {this.renderHomes()}
         </div>
 
@@ -146,28 +140,23 @@ class SearchHome extends React.Component {
   }
 }
 
-
-const validate = props => {
- /* const errors = {};
-  const fields = ['title', 'type', 'size', 'rooms'];
-
-  fields.forEach((f) => {
-    if(!(f in props)) {
-      errors[f] = `${f} is required`;
-    }
-  });
-
-  return errors;*/
-};
-
-
 function mapStateToProps(state) {
+  console.log("state.home.error")
+  console.log(state.home.error)
   return { 
     homes: state.home.list,
-    modal: state.modal.modalIsOpen
+    modal: state.modal.modalIsOpen,
+    errorMessage: state.home.error 
   };
 }
 
-SearchHome = reduxForm({ form: 'search', validate})(SearchHome);
+SearchHome = reduxForm({ form: 'search'})(SearchHome);
 
 export default connect(mapStateToProps, actions)(SearchHome);
+
+/*
+
+    <label>Titel</label>
+          <div>
+            <Field name="title" onChange={this.handleChange()} component="input" type="text" placeholder="Title"/>
+          </div> */

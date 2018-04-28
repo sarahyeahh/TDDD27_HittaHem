@@ -22,30 +22,19 @@ class AddHome extends React.Component {
   constructor(props) {
     super(props);          
     this.handleFormSubmit = this.handleFormSubmit.bind(this); 
-    this.handleChange = this.handleChange.bind(this);
     const getCurrent = localStorage.getItem('current');
     this.currentuser = getCurrent; 
   }
 
   handleFormSubmit(props) {
-    console.log(props)
-
     var userProps = { user : this.currentuser};
-    console.log("USER PROPS")
-    console.log(userProps)
-
     let merge = Object.assign(props, userProps);  
-
     this.props.addHome(merge);
-    console.log("AddHome.js ");
+    localStorage.setItem('newhome', JSON.stringify(merge) );
     //Uppdatera sidan
     window.location.reload(); 
-  }
-
-  handleChange(event){
-    console.log("Change")
-   // this.setState({value: event.target.value});
-    console.log(event)
+    const newhome = JSON.parse(localStorage.getItem('newhome'));
+    window.alert("Added home: " + newhome.title);
   }
 
   componentDidMount() {
@@ -62,10 +51,10 @@ class AddHome extends React.Component {
 
           <form onSubmit={handleSubmit(this.handleFormSubmit)}>
                     
-            <p><b>User:</b> {this.currentuser}</p>
+            <p><b>Användare:</b> {this.currentuser}</p>
            
             <div>
-              <label>Title</label>
+              <label>Titel</label>
               <div>
                 <Field
                   name="title"
@@ -77,7 +66,7 @@ class AddHome extends React.Component {
             </div>
            
             <div>
-              <label>Type</label>
+              <label>Typ</label>
               <div>
                
                   <Field
@@ -86,7 +75,8 @@ class AddHome extends React.Component {
                     type="radio"
                     value="apartment"
                   />{' '}
-                  Apartment
+                  Lägenhet
+                  {' '}
                
                   <Field
                     name="type"
@@ -94,52 +84,52 @@ class AddHome extends React.Component {
                     type="radio"
                     value="house"
                   />{' '}
-                  House
+                  Hus
                
               </div>
             </div>
             <div>
-              <label>Image</label>
+              <label>Bild</label>
               <div>
                 <Field name="image" component="select">
                   <option />
                   <option value="../../img/hus1.jpg">Hus 1</option>
                   <option value="../../img/hus2.jpg">Hus 2</option>
                   <option value="../../img/hus3.jpg">Hus 3</option>
+                  <option value="../../img/hus4.jpg">Hus 4</option>
                   <option value="../../img/lgh1.jpg">Lägenhet 1</option>
                   <option value="../../img/lgh2.jpg">Lägenhet 2</option>
                   <option value="../../img/lgh3.jpg">Lägenhet 3</option>
+                  <option value="../../img/lgh4.jpg">Lägenhet 4</option>
                 </Field>
               </div>
             </div>
 
             <div>
-              <label>Size</label>
+              <label>Storlek</label>
               <div>
                 <Field
                   name="size"
                   component="input"
                   type="number"
-                  placeholder="Size"
                 />
               </div>
             </div>
 
             <div>
-              <label>Rooms</label>
+              <label>Antal rum</label>
               <div>
                 <Field
                   name="rooms"
                   component="input"
                   type="number"
-                  placeholder="Rooms"
                 />
               </div>
             </div>
             <br/>
             <div>
-              <Button type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Create home</Button>
-              <Button type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
+              <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Create home</Button>
+              <Button className="buttons" type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
             </div>
           </form>
         </div>

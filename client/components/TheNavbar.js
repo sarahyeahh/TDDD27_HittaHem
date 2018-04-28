@@ -1,13 +1,11 @@
-//client/components/App.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-
-//Components
 import Login from './user/Login';
 import AddUser from './user/AddUser';
 import Logout from './user/Logout';
+import AdminPage from './admin/AdminPage';
 import * as actions from '../actions/home';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, handleSelected } from 'react-bootstrap';
 
@@ -29,11 +27,12 @@ class TheNavbar extends React.Component {
     	this.currentuser = getCurrent;
   	}
 
+
 	render() {
 
 		console.log("Inloggad: " + this.props.authenticated)
 
-		if(this.props.authenticated){
+		if(this.currentuser== "admin" || this.props.admin == true){
 
 			return(
 			<Navbar inverse collapseOnSelect>
@@ -47,19 +46,58 @@ class TheNavbar extends React.Component {
 
 			 	<Navbar.Collapse>
 				 	<Nav>
-			    		<NavItem href="#/signin">
+			    		<NavItem href="#/loggedin">
 				        	Mina sidor
 				      	</NavItem>
 			      		<NavItem href="#/search">
 			        		Sök hem
 			      		</NavItem>
-			      		<NavItem href="#/home">
+			      		<NavItem href="#/addhome">
 			        		Lägg upp hem
+			      		</NavItem>
+			      		<NavItem href="#/admin">
+			        		ADMIN
 			      		</NavItem>
 			      	</Nav>
 					<Nav pullRight>
-			    		<NavItem>
-	  						Signed in as: <a href="#/signin">{this.currentuser}</a>
+						<NavItem href="#/loggedin">
+	  						Signed in as: {this.currentuser}
+						</NavItem>
+			      		<NavItem >
+			        		<Logout></Logout>
+			      		</NavItem>
+			      	</Nav>	   
+			  	</Navbar.Collapse>
+			</Navbar>
+			)
+		}
+		else if(this.props.authenticated){
+
+			return(
+			<Navbar inverse collapseOnSelect>
+
+			  	<Navbar.Header>
+				    <Navbar.Brand>
+				    	<a href="#">HittaHem</a>
+				    </Navbar.Brand>
+			    	<Navbar.Toggle />
+			  	</Navbar.Header>
+
+			 	<Navbar.Collapse>
+				 	<Nav>
+			    		<NavItem href="#/loggedin">
+				        	Mina sidor
+				      	</NavItem>
+			      		<NavItem href="#/search">
+			        		Sök hem
+			      		</NavItem>
+			      		<NavItem href="#/addhome">
+			        		Lägg upp hem
+			      		</NavItem>	
+			      	</Nav>
+					<Nav pullRight>
+						<NavItem href="#/loggedin">
+	  						Signed in as: {this.currentuser}
 						</NavItem>
 			      		<NavItem >
 			        		<Logout></Logout>
@@ -72,48 +110,47 @@ class TheNavbar extends React.Component {
 
 		else{
 
-  return (
+	  		return (
 
-  			<Navbar inverse collapseOnSelect>
+	  			<Navbar inverse collapseOnSelect>
 
-			  	<Navbar.Header>
-				    <Navbar.Brand>
-				    	<a href="#">HittaHem</a>
-				    </Navbar.Brand>
-			    	<Navbar.Toggle />
-			  	</Navbar.Header>
+				  	<Navbar.Header>
+					    <Navbar.Brand>
+					    	<a href="#">HittaHem</a>
+					    </Navbar.Brand>
+				    	<Navbar.Toggle />
+				  	</Navbar.Header>
 
-			 	<Navbar.Collapse>
-			    	<Nav>
-			      		<NavItem href="#/search">
-			        		Sök hem
-			      		</NavItem>
-			    	</Nav>
-			    
-			    	<Nav pullRight>
-			      		<NavItem>
-			        		<Login></Login>
-			      		</NavItem>
-			     
-			      		<NavItem>
-			        		<AddUser></AddUser>
-			      		</NavItem>			      			     	
-			    	</Nav>
-			  	</Navbar.Collapse>
-			</Navbar>
-	  
-	    )
+				 	<Navbar.Collapse>
+				    	<Nav>
+				      		<NavItem href="#/search">
+				        		Sök hem
+				      		</NavItem>
+				    	</Nav>
+				    
+				    	<Nav pullRight>
+				      		<NavItem>
+				        		<Login></Login>
+				      		</NavItem>
+				     
+				      		<NavItem>
+				        		<AddUser></AddUser>
+				      		</NavItem>			      			     	
+				    	</Nav>
+				  	</Navbar.Collapse>
+				</Navbar>
+		  
+		    )
 
 		}
-
-	  
 	}
 }
 
 function mapStateToProps(state) {
-  return {
-    authenticated: state.auth.authenticated
-  };
+	return {
+    	authenticated: state.auth.authenticated,
+    	admin: state.auth.admin
+	};
 }
 
 export default connect(mapStateToProps, actions)(TheNavbar);

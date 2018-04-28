@@ -31,8 +31,6 @@ class AuthModal extends React.Component {
   }
  
   handleFormSubmit(props) {
-    console.log(props)
-
     if(this.props.type == "login"){
       this.props.signinUser(props);   
     }
@@ -68,7 +66,6 @@ class AuthModal extends React.Component {
     console.log(error.length)
     console.log(error)
 
-    //if(error == "User already exists."){
     if(error.length > 3){
       //Error message
        return <div>
@@ -77,7 +74,7 @@ class AuthModal extends React.Component {
     }
     else if(error){
       //No error 
-      return <p>{" hej "}</p>
+      return <p>{"  "}</p>
     }
     else{
       //Unknown error
@@ -100,7 +97,7 @@ class AuthModal extends React.Component {
             contentLabel="Login"
             className="Modal">
 
-            <Button bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+            <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
             <br/>
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
@@ -108,10 +105,10 @@ class AuthModal extends React.Component {
               <Field name="email" component={renderField} type="text" label="Email" />
               <Field name="password" component={renderField} type="text" label="Password" />
               {this.renderError()}
-              <div className='button-center'>
+              <div className='button-right'>
                 <br/>
-                <Button type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
-                <Button type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Login</Button>
+                <Button className="buttons" type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
+                <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Login</Button>
               </div>
             
             </form>
@@ -129,7 +126,7 @@ class AuthModal extends React.Component {
               contentLabel="Add user"
               className="Modal">
 
-              <Button bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
               <br/>
               <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
@@ -137,10 +134,10 @@ class AuthModal extends React.Component {
                 <Field name="email" component={renderField} type="text" label="Email" />
                 <Field name="password" component={renderField} type="text" label="Password" />
                 {this.renderError()}
-                <div className='button-center'>
+                <div className='button-right'>
                   <br/>
-                  <Button type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
-                  <Button type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Create user</Button>
+                  <Button className="buttons" type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
+                  <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Create user</Button>
                 </div>
               
               </form>
@@ -172,6 +169,7 @@ function validate(formProps) {
 }
 
 function mapStateToProps(state) {
+
   return { 
     errorMessage: state.auth.error, 
     modal: state.modal.modalIsOpen,
