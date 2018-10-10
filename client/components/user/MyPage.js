@@ -1,8 +1,7 @@
 import React from 'react';
-import SearchHome from './SearchHome';
+import LoggedIn from './LoggedIn';
 
-export default class Search extends React.Component {
- 
+export default class MyPage extends React.Component {
   constructor() {
     super();
   }
@@ -12,23 +11,24 @@ export default class Search extends React.Component {
   }
 
   //Render-function. 
-	render() {
+  render() {
   	return (
-        <div className="search">
-	        <div className="col-sm-2 col-md-2 col-lg-2">
+	    
+        <div className="mypage">
+          <div className="col-sm-2 col-md-2 col-lg-2">
 
           </div>
 
           <div className="col-sm-8 col-md-8 col-lg-8">
-  	         <SearchHome></SearchHome>
+            <LoggedIn></LoggedIn>
           </div>
 
           <div className="col-sm-2 col-md-2 col-lg-2">
 
           </div>
-      	</div>
+        </div>
     	)
-	}
+  }
 
 }
 

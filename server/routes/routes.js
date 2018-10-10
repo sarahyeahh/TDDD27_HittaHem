@@ -1,7 +1,7 @@
 //server/routes/routes.js
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
 import passport from 'passport';
 import passportService from '../passport';
 import Home from '../../models/Home';
@@ -110,22 +110,26 @@ router.route('/update').post(function(req, res) {
 //Add a home 
 router.route('/add').post(function(req, res, next) {
 
-  console.log("Routes.js Add") //Syns bara i själva rutan. 
+  console.log("Routes.js Add \n") //Syns bara i själva rutan. 
   
   const {user, title, image, type, size, rooms} = req.body;
   console.log(req.body)
 
   //Se till att alla fält är ifyllda. 
   if (!title || !user || !image || !type|| !size || !rooms) {
-       console.log("all fields are required")
-      return res.status(422).send({ error: "all fields are required" });
+      console.log("All fields are required!") //Visible in server. 
+      return res.send({ error: "All fields are required" });
   }
 
-  //Kollar om det finns ett hem med samma titel. 
+  //Kollar om det finns ett hem med samma titel. Spelar ingen roll nu men bra att ha någon slags check.
   Home.findOne({ title }, (err, existingHome) => {
 
     if(err) { 
       return next(err); 
+    } 
+    else if (existingHome) {
+      console.log("Home does already exist")
+      return res.status(422).send({ error: "Home does already exist" });
     }
 
     //Skapa ett nytt "home" med schema Home. 
@@ -151,6 +155,8 @@ router.route('/search').post(function(req, res, next) {
     user : req.body.user,
     title: req.body.title, 
     type: req.body.type, 
+   /* apartment: req.body.apartment,
+    house:  req.body.house, */
     size: req.body.size, 
     rooms: req.body.rooms, 
     maxsize: req.body.maxsize, 
@@ -166,6 +172,7 @@ router.route('/search').post(function(req, res, next) {
   if(doc.user){
 
     console.log("Search user")
+
     Home.find({user: doc.user}, {} , function(err, homes) {
       if (err) { 
         console.log("There is an error")
@@ -173,12 +180,16 @@ router.route('/search').post(function(req, res, next) {
       }
       else if(homes){
         console.log("Found homes")
-        return  res.json(homes);
+        console.log(homes)
+        //return  res.json(homes);
       }
       else{
         console.log("No homes")
         res.send(err);
       }
+
+      return  res.json(homes);
+
     });
   }
   else if(doc.maxsize || doc.minsize){
@@ -208,6 +219,8 @@ router.route('/search').post(function(req, res, next) {
         console.log("No homes")
         res.send(err);
       }
+
+      //return  res.json(homes);
  
     })
     .where('size').lte(doc.maxsize).gte(doc.minsize); //Get all the sizes between these values. gte:greater than & equal. 
@@ -236,10 +249,11 @@ router.route('/search').post(function(req, res, next) {
         console.log("No homes")
         res.send(err);
       }
+
+      //return  res.json(homes);
  
     })
     .where('rooms').lte(doc.maxrooms).gte(doc.minrooms); //Get all the sizes between these values. gte:greater than & equal. 
-
   }
   else if(doc.type){
 
@@ -264,7 +278,7 @@ router.route('/search').post(function(req, res, next) {
  
     });
   }
-  else if(!doc.maxsize && !doc.minsize && !doc.maxrooms && !doc.minrooms && !doc.type ){
+  else if(!doc.maxsize && !doc.minsize && !doc.maxrooms && !doc.minrooms && !doc.apartment && !doc.house){
     console.log("SEARCH ALL")
 
     Home.find({} , function(err, homes){
@@ -274,8 +288,8 @@ router.route('/search').post(function(req, res, next) {
         return next(err); 
       }
       else if(homes){
-        console.log("Found homes")
-        return  res.json(homes);
+       /* console.log("Found homes")
+        return  res.json(homes);*/
       }
       else{
         console.log("No homes")
@@ -392,14 +406,14 @@ router.route('/getUsers').post(function(req, res, next) {
  
   const doc = {
     user : req.body.user,
-    title: req.body.title, 
-    type: req.body.type, 
-    size: req.body.size, 
+   // title: req.body.title, 
+    //type: req.body.type, 
+  /*  size: req.body.size, 
     rooms: req.body.rooms, 
     maxsize: req.body.maxsize, 
     minsize: req.body.minsize, 
     maxrooms: req.body.maxrooms,
-    minrooms: req.body.minrooms
+    minrooms: req.body.minrooms*/
   };
 
   console.log(doc)

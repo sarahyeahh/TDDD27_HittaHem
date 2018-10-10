@@ -30,7 +30,7 @@ export default function(state = {}, action) {
     case SIGNUP_SUCCESS:
       return { ...state, signup: true, error: {} };
     case SIGNUP_FAILURE:
-      return { ...state, signup: false, error: action.payload };
+      return { ...state, signup: false, authenticated:false, error: action.payload };
 
     //Login
     case SIGNIN_ADMIN_SUCCESS: 

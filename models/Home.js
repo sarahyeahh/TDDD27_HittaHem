@@ -13,7 +13,7 @@ const homeSchema = new Schema({
 
 homeSchema.pre('save', function (next) {
   const home = this;
-  console.log("Homeschema save")  
+  console.log("Saved Home \n")  
   next();
 });
 

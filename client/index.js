@@ -9,15 +9,17 @@ import reduxThunk from 'redux-thunk';
 import { AUTH_USER, UNAUTH_USER } from './actions/constants';
 import reducers from './reducers';
 
-import TheNavbar from './components/TheNavbar'
 import App from './components/App';
+import TheNavbar from './components/TheNavbar'
 import Home from './components/home/Home';
-import LoggedIn from './components/user/LoggedIn'
+//import LoggedIn from './components/user/LoggedIn'
+import MyPage from './components/user/MyPage'
 import Search from './components/home/Search';
 import AdminPage from './components/admin/AdminPage';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
+
 const user = JSON.parse(localStorage.getItem('user'));
 
 if (user && user.token) {
@@ -36,7 +38,7 @@ ReactDOM.render(
 	  				<Route exact path='/' component={App} />
 	  				<Route path="/addhome" component={Home} />
 			      	<Route path="/search" component={Search} />
-			    	<Route path="/loggedin" component={LoggedIn} />
+			    	<Route path="/mypage" component={MyPage} />
 			    	<Route path="/admin" component={AdminPage} />
 			    	<Route path="/signout" component={App} />
     				<Route path="*" component={App} />

@@ -14,16 +14,28 @@ class AdminPage extends React.Component {
     this.props.getAllUsers()
   }
 
-  renderUsers(){
-    console.log("renderusers ")
-    const users = this.props.users || [];
-    console.log("users: ")
-    console.log(users)
+  handleClick(){
+    //this.props.deleteUser();
+    window.alert("Delete (coming soon...)");
+    window.location.reload();
+  }
 
+
+  renderUsers(){
+    const users = this.props.users || [];
     if(users){
 
       return users.map((user) => {
-       return <p>{user.email}</p>
+       return (
+            <div className="row"> 
+              <div className="col-md-6"> 
+                {user.email} 
+              </div>
+              <div className="col-md-6"> 
+                  <Button bsStyle="danger" bsSize="small" onClick={this.handleClick}>Delete</Button>
+              </div>
+           </div>
+       )
       })
 
     }
@@ -36,19 +48,37 @@ class AdminPage extends React.Component {
 
   render() {
     return(
-      <div className="content">
-        <p>Här är alla användare.</p>
-        {this.renderUsers()}
 
-      </div>
+
+        <div className="admin">
+          <div className="col-sm-2 col-md-2 col-lg-2">
+
+          </div>
+
+          <div className="col-sm-8 col-md-8 col-lg-8">
+            <div className="content">
+                <div className="row"> 
+                  <h1>Admin</h1>
+                </div>
+
+                <div className="row"> 
+                  <p>Här är alla användare.</p>
+                  {this.renderUsers()}
+                </div>
+            </div>
+          </div>
+
+          <div className="col-sm-2 col-md-2 col-lg-2">
+
+          </div>
+        </div>
+  
 
     )
   }
 }
 
 function mapStateToProps(state) {
-  console.log("State user")
-  console.log(state.user)
   return { 
     users: state.user.list
   };

@@ -21,17 +21,9 @@ class AddUser extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.type = "addUser"; 
-  }
-
-  handleFormSubmit(props) {
-    console.log(props)
-    this.props.signupUser(props);
-    //Gå till startsidan
-    window.location.assign("#")
   }
 
   openModal() {
@@ -53,26 +45,12 @@ class AddUser extends React.Component {
 
     return (
 		    <div>
-          <Button bsStyle="primary" bsSize="small" onClick={this.openModal}>Create User</Button>
+          <Button bsStyle="primary" bsSize="small" onClick={this.openModal}>Skapa konto</Button>
           <AuthModal></AuthModal>
         </div>
     )
   }
 }
-
-const validate = props => {
-  const errors = {};
-  const fields = ['email', 'password'];
-
-  fields.forEach((f) => {
-    if(!(f in props)) {
-      errors[f] = `${f} is required`;
-    }
-  });
-
-  return errors;
-};
-
 
 function mapStateToProps(state) {
   return { 
@@ -80,7 +58,5 @@ function mapStateToProps(state) {
     modal: state.modal.modalIsOpen 
   };
 }
-
-AddUser = reduxForm({ form: 'signup', validate })(AddUser);
 
 export default connect(mapStateToProps, actions)(AddUser);

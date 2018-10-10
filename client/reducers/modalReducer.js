@@ -10,7 +10,9 @@ const initialState = {
 };
 
 export default function(state = {}, action) {
+
   switch(action.type) {
+    
     case MODAL_OPEN:
       return { modalIsOpen: true, type: action.payload};
     case MODAL_CLOSED:

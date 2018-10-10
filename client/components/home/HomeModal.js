@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
 import Modal from 'react-modal';
 import {Link} from 'react-router-dom';
@@ -55,16 +54,15 @@ class HomeModal extends React.Component {
     //Finally close modal
     this.closeModal();
     window.location.reload(); 
-    window.alert("Deletet home " + this.theHome.title)
+    window.alert("Raderade hemmet " + this.theHome.title)
   }
 
   buyHome(){
     console.log("Buy")
-    window.alert("Bough the home " + this.theHome.title)
+    window.alert("Köpte hemmet: " + this.theHome.title)
   }
 
   openModal() {
-    //this.props.openModal(); 
   }
 
   closeModal() {
@@ -80,42 +78,61 @@ class HomeModal extends React.Component {
     //Hämta det i-klickade hemmet från Localstorage
     const home = JSON.parse(localStorage.getItem('statshome'));
     this.theHome = home; 
- 
+
     if(home){
 
       const { handleSubmit, reset } = this.props;
- 
+
+      if(!this.props.auth){
+           return <Modal
+              isOpen={this.props.modal}
+              onRequestClose={this.closeModal}
+              contentLabel="View"
+              className="Modal">
+
+              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Stäng</Button>
+
+              <h1>{home.title}</h1>
+              <img className="home_image" src={home.image} alt={home._id}/>
+              <br/>
+              <div className="row">
+                <p> <b>Användare:</b> {home.user}  </p>
+                <p> <b>Storlek:</b> {home.size} kvm</p>
+                <p> <b>Rum:</b> {home.rooms} rum</p>    
+              </div>                             
+            </Modal>
+      }
       //If the home belongs to the logged in user the home can be modified. 
-      if(this.currentuser == home.user){
+      if(this.currentuser == home.user && this.props.auth){
         return <Modal
                   isOpen={this.props.modal}
                   onRequestClose={this.closeModal}
                   contentLabel="Edit"
                   className="Modal">
 
-              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Stäng</Button>
               <br/>
               <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
-                <h1>Edit home</h1>
+                <h1>Redigera hem</h1>
                 <img className="home_image" src={home.image} alt={home.user}/>
           
                 <div>
-                  <label>Title</label>
+                  <label>Titel</label>
                   <div>
-                    <Field name="title" component="input" type="text" placeholder={home.title} value={home.title} />
+                    <Field name="title" component="input" value={home.title} placeholder={home.title} type="text" />
                   </div>
                 </div>
                       
                 <div>
-                  <label>Size</label>
+                  <label>Storlek</label>
                   <div>
                     <Field name="size" component="input" value={home.size} placeholder={home.size} type="number"/>
                   </div>
                 </div>
 
                 <div>
-                  <label>Rooms</label>
+                  <label>Rum</label>
                   <div>
                     <Field name="rooms"  component="input" value={home.rooms} placeholder={home.rooms} type="number"/>
                   </div>
@@ -123,8 +140,8 @@ class HomeModal extends React.Component {
                         
                 <div className='button-right'>
                   <br/>
-                  <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Update</Button>
-                  <Button className="buttons" bsStyle="danger" bsSize="small" onClick={this.deleteHome}>Delete</Button>
+                  <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Uppdatera</Button>
+                  <Button className="buttons" bsStyle="danger" bsSize="small" onClick={this.deleteHome}>Radera</Button>
                 </div>
                 
               </form>
@@ -139,14 +156,15 @@ class HomeModal extends React.Component {
               contentLabel="View"
               className="Modal">
 
-              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Stäng</Button>
               <br/>
               <h1>{home.title}</h1>
               <img className="home_image" src={home.image} alt={home._id}/>
               <div>
-                <p> <b>User:</b> {home.user}  </p>
-                <p> <b>Size:</b> {home.size} </p>
-                <p> <b>Rooms:</b> {home.rooms} </p>    
+              
+                <p> <b>Användare:</b> {home.user}  </p>
+                <p> <b>Storlek:</b> {home.size} kvm</p>
+                <p> <b>Rum:</b> {home.rooms} rum</p>    
               </div>                  
               <div className='button-right'>
                 <br/>
@@ -157,9 +175,7 @@ class HomeModal extends React.Component {
       }
 
     }
-    else{
-      console.log("Do nothing")
-    }
+ 
   }
 
 
@@ -184,7 +200,7 @@ function mapStateToProps(state) {
     homepage: state.homepage.list,
     homes: state.home.list,
     modal: state.modal.modalIsOpen,
-    auth: state.auth
+    auth: state.auth.authenticated
   };
 }
 

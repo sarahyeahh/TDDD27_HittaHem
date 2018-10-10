@@ -21,11 +21,14 @@ const initialState = {
 
 export default function(state = {}, action) {
 
+  console.log(action.payload)
+  //console.log(action.type)
+
   switch(action.type) {
 
     //Add home
     case ADD_HOME:
-      return {...state, add: true, error: {} };
+      return {...state, add: true, error: action.payload };
     case ADD_HOME_FAILURE:
       return { ...state, add: false, error: action.payload };
 

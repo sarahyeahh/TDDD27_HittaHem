@@ -21,7 +21,7 @@ class Compare extends React.Component {
     const homes = this.props.homes || [];
 
     return homes.map((home) => {
-       return <th key={home._id}> {home.title} </th>
+       return <th scope="col" key={home._id}> {home.title} </th>
     })
   }
 
@@ -29,7 +29,7 @@ class Compare extends React.Component {
     const homes = this.props.homes || [];
 
     return homes.map((home) => {
-       return <td key={home._id} className="text-center"> {home.size} </td>
+       return <td key={home._id} className=""> {home.size} </td>
     })
   }
 
@@ -37,7 +37,7 @@ class Compare extends React.Component {
     const homes = this.props.homes || [];
 
     return homes.map((home) => {
-       return <td key={home._id} className="text-center"> {home.rooms} </td>
+       return <td key={home._id} className=""> {home.rooms} </td>
     })
   }
 
@@ -45,7 +45,7 @@ class Compare extends React.Component {
     const homes = this.props.homes || [];
 
     return homes.map((home) => {
-       return <td key={home._id} className="text-center"> {home.type} </td>
+       return <td key={home._id} className=""> {home.type} </td>
     })
   }
 
@@ -55,28 +55,29 @@ class Compare extends React.Component {
       	return (
        
           <div className="row compare">
-            <div className="col-12 mt-5 text-center">
-             <h1>Jämför hem:</h1>
-              <table className="table">
+
+            <div className="table-responsive-sm">
+             <h1>Jämför hem</h1>
+              <table className="table table-hover table-striped">
                 
-                <thead className="thead-default">
+                <thead className="thead-light">
                   <tr>
-                    <th>Title</th>
+                    <th>Titel</th>
                     {this.renderTitles()}
                   </tr>
                 </thead>
                 
                 <tbody>
                   <tr className="price">
-                    <th scope="row">Size</th>
+                    <th scope="row">Storlek</th>
                     {this.renderSizes()}
                   </tr>
-                  <tr className="condition">
-                    <th scope="row">Rooms</th>
+                  <tr className="rooms">
+                    <th scope="row">Rum</th>
                     {this.renderRooms()}
                   </tr>
-                  <tr className="condition">
-                    <th scope="row">Types</th>
+                  <tr className="types">
+                    <th scope="row">Typ</th>
                     {this.renderTypes()}
                   </tr>
                 </tbody>

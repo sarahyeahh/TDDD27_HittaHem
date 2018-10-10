@@ -69,16 +69,17 @@ export function signupUser(props) {
       .then(response => {
 
         console.log(response.data)
-        
+
         dispatch({ 
           type: SIGNUP_SUCCESS, 
           payload: response.data 
         });
 
-        signinUser(props); 
+        
       })
       .catch(response => dispatch(authError(SIGNUP_FAILURE, "User already exists.")));
   }
+    
 }
 
 /**

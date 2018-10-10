@@ -70,6 +70,7 @@ export function getHomepage(props){
     axios.post(`${API_URL}/search`, props)
       .then(response => {
 
+        console.log("getHomepage")
         console.log(response.data)
 
         dispatch({
@@ -86,15 +87,23 @@ export function getHomepage(props){
 //ADD
 export function addHome(props) {
 
+  console.log(props)
+
   return function (dispatch) {
 
     axios.post(`${API_URL}/add`, props)
-      .then(() => {
+      .then(response => {
 
-        dispatch({ type: ADD_HOME });
+        console.log("response.data")
+        console.log(response.data)
+        
+        dispatch({ 
+          type: ADD_HOME,
+          payload: response.data,
+        });
       
       })
-      .catch(response => dispatch(homeError(ADD_HOME_FAILURE, "Could not add home.")));
+      .catch(response => dispatch(homeError(ADD_HOME_FAILURE, "Could not add home."))); //Another error. 
   }
 }
 
@@ -146,13 +155,12 @@ export function deleteTheHome(props) {
 export function searchHome(props) {
 
   resetSearch();
+  console.log(props)
 
   return function (dispatch) {
 
     axios.post(`${API_URL}/search`, props)
       .then(response => {
-
-        console.log(response.data)
 
         dispatch({
           type: FETCH_HOMES,
@@ -167,8 +175,6 @@ export function searchHome(props) {
 
 //Reset the search. 
 export function resetSearch() {
-
-  console.log("home.js Reset")
 
   return function (dispatch) {
 

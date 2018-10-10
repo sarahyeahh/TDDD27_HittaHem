@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
 import Modal from 'react-modal';
 import {Link} from 'react-router-dom';
@@ -8,6 +7,17 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, Radio } from 'redux-form';
 import Compare from './Compare';
 import HomeModal from './HomeModal';
+
+//All the render fields. 
+const renderField = ({input, label, placeholder, type, meta: {touched, error}}) => (
+  <div className="form-group">
+    <label>{label}</label>
+    <div>
+      <input className="form-control" {...input} placeholder={placeholder} type={type} />
+      {touched && error && <span>{error}</span>}
+    </div>
+  </div>
+)
 
 class SearchHome extends React.Component {
 
@@ -28,6 +38,7 @@ class SearchHome extends React.Component {
   }
 
   handleFormSubmit(props) { 
+    console.log("PROPS: ")
     console.log(props)
     this.props.searchHome(props);
   }
@@ -39,9 +50,8 @@ class SearchHome extends React.Component {
   componentDidMount(){
   }
 
-//TODO
+
   handleChange(e){
-    console.log("Change")
   }
 
   openModal() {
@@ -66,16 +76,18 @@ class SearchHome extends React.Component {
 
     if(homes){
 
-      return homes.map((home) => {
-       return <div key={home._id} className="homes col-sm-6 col-md-3">
+      return homes.map((home) => { 
+       return <div key={home._id} className="homes col-centered col-md-4" onClick={() => this.click(home)}>
                 <img className="home_image" src={home.image} alt={home._id}/>
-                <div className="image_overlay" onClick={() => this.click(home)}></div>
+                <div className="image_overlay" ></div>
                 <p className="user_modal">{home.user}</p>
-                <div className="stats">
-                    <span className="home_title">{home.title}</span>  <br/>
-                    <span className="home_size"> <b>Storlek:</b> {home.size} kvm </span> {" "}
-                    <span className="home_rooms"><b>Antal rum:</b> {home.rooms} rum </span> 
-                 </div>
+                <div className="row stats">
+                    <span className="home_title col-md-12">{home.title}</span>
+                    <div className="row">
+                      <span className="home_size col-sm-6 col-md-12"> <b>Storlek:</b> {home.size} kvm </span> {" "}
+                      <span className="home_rooms col-sm-6 col-md-12"><b>Antal rum:</b> {home.rooms} rum </span> 
+                    </div>
+                </div>
 
               </div>
       })
@@ -94,55 +106,81 @@ class SearchHome extends React.Component {
 
     return (
 
-	    <div className="content">
+      <div className="row">
 
-        <h1>Sök hem</h1>
+        <div className="row searchform">
+          <h1>Sök hem</h1>
 
-        <form onSubmit={handleSubmit(this.handleFormSubmit)}>   
-                  
-          <label>Typ</label>
-          <div>
-          <Field name="type" component="input" type="radio" value="apartment" />
-          {' '} Lägenhet {' '}
- 
-          <Field name="type" component="input" type="radio" value="house" />
-          {' '}Hus{' '}
-          </div>
+          <form onSubmit={handleSubmit(this.handleFormSubmit)}>   
+     
+            <div className="row">
+              <div className="col-md-4">
+               <label>Typ</label>
+                <div className="form-group" >
+                      <div className="form-check">
+                        <Field className="form-check-input" label="HEJ" component="input" type="radio" name="type" id="apartment" value="apartment" />
+                        <label className="form-check-label" for="apartment">
+                          {' '}Lägenhet
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <Field className="form-check-input" component="input" type="radio" name="type" id="house" value="house"/>
+                        <label className="form-check-label" for="house">
+                          {' '}Hus
+                        </label>
+                      </div>
+                    </div>
 
-          <label>Storlek</label>
-          <div>
-            <Field className="input" name="minsize" component="input" type="number" placeholder="Min"/>-
-            <Field className="input" name="maxsize" component="input" type="number" placeholder="Max"/> kvm          
-          </div>
- 
-          <label>Antal rum</label>
-          <div>
-            <Field className="input" name="minrooms" component="input" type="number" placeholder="Min" />-
-            <Field className="input" name="maxrooms" component="input" type="number" placeholder="Max" /> rum
-          </div>
-          <br/>
-          <br/>
-          <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Search</Button>
-          <Button className="buttons" type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
-          <Button className="buttons" type="button" onClick={this.resetSearch} bsStyle="danger" bsSize="small" >Reset search</Button>  
 
-        </form>
-  
-        <div className="row homes">
+              </div>
+
+              <div className="col-md-4">
+                <label>Storlek (kvm)</label>
+                <div className="col-md-6 small-field">
+                  <Field className="input" name="minsize" component={renderField} type="number" placeholder="Min"/>
+                </div>
+                <div className="col-md-6 small-field">  
+                  <Field className="input" name="maxsize" component={renderField} type="number" placeholder="Max"/>       
+                </div>
+              </div>   
+         
+              <div className="col-md-4">
+                <label>Antal rum</label>
+                <div className="col-md-6 small-field">
+                  <Field className="input" name="minrooms" component={renderField} type="number" placeholder="Min" />
+                </div>  
+                <div className="col-md-6 small-field">
+                  <Field className="input" name="maxrooms" component={renderField} type="number" placeholder="Max" />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Sök</Button>
+              <Button className="buttons" type="button" onClick={reset} bsStyle="warning" bsSize="small" >Rensa</Button>
+              <Button className="buttons" type="button" onClick={this.resetSearch} bsStyle="danger" bsSize="small" >Rensa sökning</Button>  
+            </div>
+          </form>
+
+        </div>
+
+        <div className="row results row-centered">
           {this.renderHomes()}
         </div>
 
-        <Compare></Compare>
+        <div className="row">
+          <Compare></Compare>
+        </div>
+        
         <HomeModal></HomeModal>
 
       </div>
+
     )
   }
 }
 
 function mapStateToProps(state) {
-  console.log("state.home.error")
-  console.log(state.home.error)
   return { 
     homes: state.home.list,
     modal: state.modal.modalIsOpen,
@@ -160,3 +198,27 @@ export default connect(mapStateToProps, actions)(SearchHome);
           <div>
             <Field name="title" onChange={this.handleChange()} component="input" type="text" placeholder="Title"/>
           </div> */
+
+
+
+
+        /*    <label>Typ</label>
+            <div>
+            <Field name="type" component="input" type="checkbox" value="apartment" />
+            {' '} Lägenhet {' '}
+   
+            <Field name="type" component="input" type="checkbox" value="house" />
+            {' '}Hus{' '}
+            </div>*/
+
+
+
+/*
+              <div className="form-check form-check-inline">
+                  <Field className="form-check-input" name="type" component="input" type="radio" id="apartment" value="apartment"/>
+                  <label className="form-check-label" for="apartment">{'  '}  Lägenhet  </label>
+                </div>
+                <div className="form-check form-check-inline">
+                  <Field className="form-check-input" name="type" component="input" type="radio" id="house" value="house"/>
+                  <label className="form-check-label" for="house">{'  '}  Hus  </label>
+                </div>*/

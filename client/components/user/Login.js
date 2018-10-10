@@ -35,7 +35,7 @@ class Login extends React.Component {
     return (
 
 	    <div>
-        <Button bsStyle="success" bsSize="small" onClick={this.openModal}>Login</Button>
+        <Button bsStyle="success" bsSize="small" onClick={this.openModal}>Logga in</Button>
         <AuthModal></AuthModal>
       </div>
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import Modal from 'react-modal';
@@ -71,20 +70,23 @@ class LoggedIn extends React.Component {
 
     if(this.props.homes){
       return homes.map((home) => {
-        return <div key={home._id} className="homes col-sm-6 col-md-6 col-lg-3">
+        return <div key={home._id} className="homes col-centered col-xs-12 col-sm-12 col-md-6 col-lg-6">
               <img className="home_image" src={home.image} alt={home._id}/>
               <div className="image_overlay" onClick={() => this.click(home)}></div>
-              <span className="home_title">{home.title}</span>
-              <div className="stats">
-                  <span className="home_size"><b>Storlek:</b> {home.size} kvm </span> {" "}
-                  <span className="home_rooms"><b>Antal rum:</b> {home.rooms} rum </span> 
+              <div className="row stats">
+                  <div className="home_title col-md-12">{home.title}</div>
+                  <div className="row">
+                    <span className="home_size"><b>Storlek:</b> {home.size} kvm </span> {" "}
+                    <span className="home_rooms"><b>Antal rum:</b> {home.rooms} rum </span> 
+                  </div>
                </div>
             </div>
       })
     }
-    else{
-      <p>Du har tyvärr inga annonser. Skapa en här: <Link href="#/addhome">KLICKA</Link></p>    
+    else {
+      return( <div>Du har tyvärr inga annonser. Skapa en <a href="#/addhome">här</a>.</div>)    
     }
+
 
   }
 
@@ -93,15 +95,24 @@ class LoggedIn extends React.Component {
     const { handleSubmit, reset } = this.props;
 
 	    return (
-  		    <div className="content homes">
-  		    	<h1>Mina sidor</h1>   
-  			    <p> <b>Användarnamn: </b> {this.currentuser}</p>
-  			    <p><b>Mina egna annonser:</b></p>	
-  			    <ul>
-          		{ this.renderHomes() }
-               <Button bsStyle="success" bsSize="small" href="#/addhome">Lägg till hem</Button>
-        		</ul>
-            
+
+          <div className="row">
+  		      <div className="row loggedin">
+    		    	<h1>Mina sidor</h1>   
+    			    <h3><b>Användarnamn: </b>{this.currentuser}</h3>
+            </div>
+
+            <div className="row">                      
+              <h4><b>Mina egna annonser:</b></h4>  
+              <ul>
+                { this.renderHomes() }
+              </ul>
+            </div>
+
+            <div className="row">
+              <Button bsStyle="success" bsSize="small" href="#/addhome">Lägg till hem</Button>
+            </div>
+
             <HomeModal></HomeModal>
 
           </div>

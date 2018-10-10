@@ -1,7 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import { connect } from 'react-redux';
 import AddHome from './AddHome';
 
 export default class Home extends React.Component {
@@ -16,9 +13,23 @@ export default class Home extends React.Component {
   //Render-function. 
   render() {
   	return (
-	      <div>
-	        <AddHome></AddHome>
-      	</div>
+	    
+        <div className="addhome">
+          <div className="col-sm-2 col-md-2 col-lg-2">
+ 
+          </div>
+
+          <div className="col-sm-8 col-md-8 col-lg-8">
+
+            <div className="row">
+              <AddHome></AddHome>
+            </div>
+          </div>
+
+          <div className="col-sm-2 col-md-2 col-lg-2">
+
+          </div>
+        </div>
     	)
   }
 

@@ -19,7 +19,7 @@ const userSchema = new Schema({
 userSchema.pre('save', function (next) {
   const user = this;
 
-  console.log("Userschema save")
+  console.log("Saved user: ")
   console.log(user)
 
   bcrypt.genSalt(10, (err, salt) => {

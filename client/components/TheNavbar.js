@@ -1,13 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
+import * as actions from '../actions/home';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, handleSelected } from 'react-bootstrap';
 import Login from './user/Login';
 import AddUser from './user/AddUser';
 import Logout from './user/Logout';
 import AdminPage from './admin/AdminPage';
-import * as actions from '../actions/home';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button, handleSelected } from 'react-bootstrap';
 
 class TheNavbar extends React.Component {
 
@@ -30,7 +30,7 @@ class TheNavbar extends React.Component {
 
 	render() {
 
-		console.log("Inloggad: " + this.props.authenticated)
+		console.log("User is logged in: " + this.props.authenticated)
 
 		if(this.currentuser== "admin" || this.props.admin == true){
 
@@ -46,7 +46,7 @@ class TheNavbar extends React.Component {
 
 			 	<Navbar.Collapse>
 				 	<Nav>
-			    		<NavItem href="#/loggedin">
+			    		<NavItem href="#/mypage">
 				        	Mina sidor
 				      	</NavItem>
 			      		<NavItem href="#/search">
@@ -61,7 +61,7 @@ class TheNavbar extends React.Component {
 			      	</Nav>
 					<Nav pullRight>
 						<NavItem href="#/loggedin">
-	  						Signed in as: {this.currentuser}
+	  						Inloggad som: {this.currentuser}
 						</NavItem>
 			      		<NavItem >
 			        		<Logout></Logout>
@@ -85,7 +85,7 @@ class TheNavbar extends React.Component {
 
 			 	<Navbar.Collapse>
 				 	<Nav>
-			    		<NavItem href="#/loggedin">
+			    		<NavItem href="#/mypage">
 				        	Mina sidor
 				      	</NavItem>
 			      		<NavItem href="#/search">
@@ -96,8 +96,8 @@ class TheNavbar extends React.Component {
 			      		</NavItem>	
 			      	</Nav>
 					<Nav pullRight>
-						<NavItem href="#/loggedin">
-	  						Signed in as: {this.currentuser}
+						<NavItem href="#/mypage">
+	  						Inloggad som: {this.currentuser}
 						</NavItem>
 			      		<NavItem >
 			        		<Logout></Logout>

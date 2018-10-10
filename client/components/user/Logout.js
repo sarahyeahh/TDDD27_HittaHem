@@ -16,11 +16,11 @@ class Logout extends React.Component {
   handleClick(){
   	this.props.signoutUser();
     window.location.assign("#")
-    window.location.reload();
+    //window.location.reload();
   }
 
   render() {
-    return <Button bsStyle="success" bsSize="small" href="#/loggedin" onClick={this.handleClick}>Log out</Button> 
+    return <Button bsStyle="success" bsSize="small" href="#/loggedin" onClick={this.handleClick}>Logga ut</Button> 
   }
 }
 

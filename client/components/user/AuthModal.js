@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
 import Modal from 'react-modal';
 import {Link} from 'react-router-dom';
@@ -8,7 +7,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, Radio } from 'redux-form';
 
 const renderField = ({input, label, type, meta: {touched, error}}) => (
-  <div>
+  <div className="form-group">
     <label>{label}</label>
     <div>
       <input {...input} placeholder={label} type={type} />
@@ -27,7 +26,6 @@ class AuthModal extends React.Component {
     const getCurrent = localStorage.getItem('current');
     this.currentuser = getCurrent;   
     this.renderError = this.renderError.bind(this); 
-    this.errorM = "";
   }
  
   handleFormSubmit(props) {
@@ -35,18 +33,20 @@ class AuthModal extends React.Component {
       this.props.signinUser(props);   
     }
     else if(this.props.type == "addUser"){
-      this.props.signupUser(props);
+      this.props.signupUser(props);    
     }
     else{
       console.log("Something went wrong")
     }
     
-    //Gå till startsidan
+    console.log("After the IF-statements")
+    //Gå till start
+    this.closeModal();
     window.location.assign("#")
+    //window.location.reload();
   }
 
   componentWillMount() {
-    console.log("Auth modal")
     //To get rid of error-message
     Modal.setAppElement('body');
   }
@@ -58,13 +58,12 @@ class AuthModal extends React.Component {
   }
 
   closeModal() {
+     console.log("Close modal")
     this.props.closeModal(); 
   }
 
   renderError(){
     const error = this.props.errorMessage;
-    console.log(error.length)
-    console.log(error)
 
     if(error.length > 3){
       //Error message
@@ -97,18 +96,18 @@ class AuthModal extends React.Component {
             contentLabel="Login"
             className="Modal">
 
-            <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+            <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Stäng</Button>
             <br/>
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
-              <h1>Log in</h1>            
-              <Field name="email" component={renderField} type="text" label="Email" />
-              <Field name="password" component={renderField} type="text" label="Password" />
+              <h1>Logga in</h1>            
+              <Field name="email" component={renderField} type="text" label="Email" required />
+              <Field name="password" component={renderField} type="text" label="Password" required />
               {this.renderError()}
               <div className='button-right'>
                 <br/>
                 <Button className="buttons" type="button" onClick={reset} bsStyle="warning" bsSize="small" >Reset</Button>
-                <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Login</Button>
+                <Button className="buttons" type="submit" onClick={handleSubmit(this.handleFormSubmit)} bsStyle="success" bsSize="small" >Log in</Button>
               </div>
             
             </form>
@@ -126,13 +125,13 @@ class AuthModal extends React.Component {
               contentLabel="Add user"
               className="Modal">
 
-              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Close</Button>
+              <Button className="closebtn" bsStyle="danger" bsSize="small" onClick={this.closeModal}>Stäng</Button>
               <br/>
               <form onSubmit={handleSubmit(this.handleFormSubmit)}>
 
-                <h1>Create user</h1>
-                <Field name="email" component={renderField} type="text" label="Email" />
-                <Field name="password" component={renderField} type="text" label="Password" />
+                <h1>Skapa ny användare</h1>
+                <Field name="email" component={renderField} type="text" label="Email" required />
+                <Field name="password" component={renderField} type="text" label="Password" required />
                 {this.renderError()}
                 <div className='button-right'>
                   <br/>
@@ -157,6 +156,7 @@ function validate(formProps) {
   const errors = {};
   console.log(formProps)
 
+
   if(!formProps.email) {
     errors.email = ' Email is required'
   }
@@ -169,11 +169,11 @@ function validate(formProps) {
 }
 
 function mapStateToProps(state) {
-
+  console.log(state.auth )
   return { 
     errorMessage: state.auth.error, 
     modal: state.modal.modalIsOpen,
-    auth: state.auth, 
+    auth: state.auth.authenticated, 
     type: state.modal.type
   };
 }
