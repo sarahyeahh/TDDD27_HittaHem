@@ -43,7 +43,6 @@ class AuthModal extends React.Component {
     //Gå till start
     this.closeModal();
     window.location.assign("#")
-    //window.location.reload();
   }
 
   componentWillMount() {

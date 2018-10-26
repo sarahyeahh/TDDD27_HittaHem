@@ -29,16 +29,10 @@ class AddHome extends React.Component {
   }
 
   handleFormSubmit(props) {
-
-
-    console.log("Props: ")
-    console.log(props)
     var userProps = { user : this.currentuser};
     let merge = Object.assign(props, userProps);  //Add the username to the home. 
     this.props.addHome(merge); 
     localStorage.setItem('newhome', JSON.stringify(merge) );
-    //Update the page
-   // window.location.reload(); 
 
     const newhome = JSON.parse(localStorage.getItem('newhome'));
     window.alert("Added home: " + newhome.title);
@@ -52,12 +46,7 @@ class AddHome extends React.Component {
   renderError(){
     const errors = this.props.errorMessage || [];
 
-    console.log("(renderError) Error: ")
-    console.log(errors.error)
-
     if(errors.error){
-      console.log("(if) ERROR")
-
       //Error message
        return <div className="alert alert-danger" role="alert">
                 <strong>Oh snap!</strong> {errors.error}
@@ -65,7 +54,6 @@ class AddHome extends React.Component {
                
     }
     else if(errors.error == null || errors.error == "" || errors.error == undefined ){
-      console.log("ERROR NULL")
       //No error 
       return <p>{""}</p>
     }
@@ -74,9 +62,7 @@ class AddHome extends React.Component {
                   <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
                 </div>
     }
-  
     else{
-      console.log("(else)")
       //Unknown error
       return <p>{""}</p>
     }
@@ -202,20 +188,6 @@ class AddHome extends React.Component {
    
   }
 }
-
-/*const validate = props => {
-  const errors = {};
-  const fields = ['title', 'type', 'image', 'size', 'rooms'];
-
-  fields.forEach((f) => {
-    if(!(f in props)) {
-      errors[f] = `${f} is required`;
-    }
-  });
-
-  return errors;
-};
-*/
 
 function validate(formProps) {
   const errors = {};

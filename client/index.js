@@ -12,7 +12,6 @@ import reducers from './reducers';
 import App from './components/App';
 import TheNavbar from './components/TheNavbar'
 import Home from './components/home/Home';
-//import LoggedIn from './components/user/LoggedIn'
 import MyPage from './components/user/MyPage'
 import Search from './components/home/Search';
 import AdminPage from './components/admin/AdminPage';

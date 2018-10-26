@@ -14,7 +14,13 @@ class AdminPage extends React.Component {
     this.props.getAllUsers()
   }
 
-  handleClick(){
+  handleConfigClick(){
+    //this.props.configUser();
+    window.alert("Configure (coming soon...)");
+    window.location.reload();
+  }
+
+  handleDeleteClick(){
     //this.props.deleteUser();
     window.alert("Delete (coming soon...)");
     window.location.reload();
@@ -32,7 +38,9 @@ class AdminPage extends React.Component {
                 {user.email} 
               </div>
               <div className="col-md-6"> 
-                  <Button bsStyle="danger" bsSize="small" onClick={this.handleClick}>Delete</Button>
+                  <Button bsStyle="success" bsSize="small" onClick={this.handleConfigClick}>Configure</Button>
+                  <Button bsStyle="danger" bsSize="small" onClick={this.handleDeleteClick}>Delete</Button>
+                  
               </div>
            </div>
        )

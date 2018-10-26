@@ -21,9 +21,6 @@ const initialState = {
 
 export default function(state = {}, action) {
 
-  console.log(action.payload)
-  //console.log(action.type)
-
   switch(action.type) {
 
     //Add home

@@ -1,7 +1,6 @@
 //server/routes/routes.js
 var express = require('express');
 var router = express.Router();
-//var bodyParser = require('body-parser');
 import passport from 'passport';
 import passportService from '../passport';
 import Home from '../../models/Home';
@@ -198,7 +197,6 @@ router.route('/search').post(function(req, res, next) {
     if(!doc.maxsize){ doc.maxsize = 100000} //If maxsize is not set
     if(!doc.minsize){ doc.minsize = 0} //If minsize is not set
 
-    //Home.find({type:doc.type} , function(err, homes){
     Home.find({} , function(err, homes){
 
       console.log("Homes " + homes)
@@ -232,7 +230,6 @@ router.route('/search').post(function(req, res, next) {
     if(!doc.maxrooms){ doc.maxrooms = 100000} //If maxsize is not set
     if(!doc.minrooms){ doc.minrooms = 0} //If minsize is not set
 
-    //Home.find({type:doc.type} , function(err, homes){
     Home.find({} , function(err, homes){
 
       console.log("Homes " + homes)
@@ -249,8 +246,6 @@ router.route('/search').post(function(req, res, next) {
         console.log("No homes")
         res.send(err);
       }
-
-      //return  res.json(homes);
  
     })
     .where('rooms').lte(doc.maxrooms).gte(doc.minrooms); //Get all the sizes between these values. gte:greater than & equal. 
@@ -300,38 +295,6 @@ router.route('/search').post(function(req, res, next) {
  
     });
   }
-/*  else if(doc.title){
-    console.log("Search title")
-
-    Home.prototype.startsWith = function (prefix) {
-      this.where({ title: new RegExp('^' + prefix) })
-      return this;
-    }
-
-    var regexp = new RegExp("^"+ doc.title);
-    console.log(regexp)
-
-    Home.find({type:doc.type}, function(err, homes) => {
-
-      console.log("Homes" + homes)
-
-      if (err) { 
-        console.log("There is an error")
-        return next(err); 
-      }
-      else if(homes){
-        console.log("Found homes")
-        return  res.json(homes);
-      }
-      else{
-        console.log("No homes")
-        res.send(err);
-      }
-
-    })
-    .where({title:regexp});
-
-  }*/
   else{
     console.log("No homes")
   }

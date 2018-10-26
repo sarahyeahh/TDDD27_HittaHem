@@ -16,7 +16,6 @@ class Logout extends React.Component {
   handleClick(){
   	this.props.signoutUser();
     window.location.assign("#")
-    //window.location.reload();
   }
 
   render() {

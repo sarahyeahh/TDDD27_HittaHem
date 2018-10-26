@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
-import Modal from 'react-modal';
 import {Link} from 'react-router-dom';
 import * as actions from '../../actions/home';
 import { connect } from 'react-redux';
@@ -191,34 +190,3 @@ function mapStateToProps(state) {
 SearchHome = reduxForm({ form: 'search'})(SearchHome);
 
 export default connect(mapStateToProps, actions)(SearchHome);
-
-/*
-
-    <label>Titel</label>
-          <div>
-            <Field name="title" onChange={this.handleChange()} component="input" type="text" placeholder="Title"/>
-          </div> */
-
-
-
-
-        /*    <label>Typ</label>
-            <div>
-            <Field name="type" component="input" type="checkbox" value="apartment" />
-            {' '} Lägenhet {' '}
-   
-            <Field name="type" component="input" type="checkbox" value="house" />
-            {' '}Hus{' '}
-            </div>*/
-
-
-
-/*
-              <div className="form-check form-check-inline">
-                  <Field className="form-check-input" name="type" component="input" type="radio" id="apartment" value="apartment"/>
-                  <label className="form-check-label" for="apartment">{'  '}  Lägenhet  </label>
-                </div>
-                <div className="form-check form-check-inline">
-                  <Field className="form-check-input" name="type" component="input" type="radio" id="house" value="house"/>
-                  <label className="form-check-label" for="house">{'  '}  Hus  </label>
-                </div>*/
